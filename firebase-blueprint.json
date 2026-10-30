@@ -1,0 +1,212 @@
+{
+  "entities": {
+    "user": {
+      "title": "User",
+      "description": "User profile with display name, username, and privacy settings",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "username": { "type": "string", "maxLength": 64 },
+        "displayName": { "type": "string", "maxLength": 100 },
+        "photoURL": { "type": "string" },
+        "about": { "type": "string", "maxLength": 250 },
+        "isOnline": { "type": "boolean" },
+        "lastSeen": { "type": "number" },
+        "createdAt": { "type": "number" },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "phoneNumber": { "type": "string", "maxLength": 30 },
+        "allowSearchByUsername": { "type": "boolean" },
+        "savedContactIds": { "type": "array" }
+      },
+      "required": ["uid", "email", "username", "displayName", "phoneNumber"]
+    },
+    "followRequest": {
+      "title": "FollowRequest",
+      "description": "Instagram-style friend follow request to connect and chat",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderUsername": { "type": "string", "maxLength": 64 },
+        "senderName": { "type": "string", "maxLength": 100 },
+        "senderPhoto": { "type": "string" },
+        "senderPhoneNumber": { "type": "string", "maxLength": 30 },
+        "receiverId": { "type": "string" },
+        "receiverUsername": { "type": "string", "maxLength": 64 },
+        "receiverName": { "type": "string", "maxLength": 100 },
+        "receiverPhoto": { "type": "string" },
+        "receiverPhoneNumber": { "type": "string", "maxLength": 30 },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined"] },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["id", "senderId", "receiverId", "status", "createdAt"]
+    },
+    "privateChat": {
+      "title": "PrivateChat",
+      "description": "Direct conversation or exclusive 2-user private lock room",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "participants": { "type": "array" },
+        "isExclusiveRoom": { "type": "boolean" },
+        "roomCode": { "type": "string" },
+        "roomLocked": { "type": "boolean" },
+        "typing": { "type": "object" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["id", "participants"]
+    },
+    "group": {
+      "title": "Group",
+      "description": "Group chat with multiple members and admins",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 300 },
+        "createdBy": { "type": "string" },
+        "admins": { "type": "array" },
+        "members": { "type": "array" },
+        "inviteCode": { "type": "string" },
+        "typing": { "type": "object" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["id", "name", "createdBy", "admins", "members"]
+    },
+    "status": {
+      "title": "Status",
+      "description": "24-hour disappearing story update",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "type": { "type": "string", "enum": ["text", "image", "video"] },
+        "content": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "userId", "type", "content", "createdAt"]
+    },
+    "call": {
+      "title": "Call",
+      "description": "WebRTC voice/video call signaling session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "callerId": { "type": "string" },
+        "callerName": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "receiverName": { "type": "string" },
+        "type": { "type": "string", "enum": ["voice", "video"] },
+        "status": { "type": "string", "enum": ["calling", "ringing", "connected", "ended", "rejected", "missed"] },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "callerId", "receiverId", "type", "status", "createdAt"]
+    },
+    "report": {
+      "title": "Report",
+      "description": "User filed moderation report for messages, users or groups",
+      "type": "object",
+      "properties": {
+        "reporterId": { "type": "string" },
+        "reporterName": { "type": "string" },
+        "targetType": { "type": "string", "enum": ["user", "message", "group", "status"] },
+        "targetId": { "type": "string" },
+        "reason": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "resolved", "dismissed"] },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["reporterId", "targetType", "targetId", "reason", "status", "createdAt"]
+    },
+    "privateInvite": {
+      "title": "PrivateInvite",
+      "description": "2-user private chat room invitation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderUsername": { "type": "string" },
+        "senderName": { "type": "string" },
+        "senderPhoto": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "receiverUsername": { "type": "string" },
+        "receiverName": { "type": "string" },
+        "receiverPhoto": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined"] },
+        "roomId": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "senderId", "receiverId", "status", "createdAt"]
+    },
+    "message": {
+      "title": "Message",
+      "description": "Chat message with reactions, receipts and attachments",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "senderPhoto": { "type": "string" },
+        "text": { "type": "string" },
+        "type": { "type": "string", "enum": ["text", "image", "video", "audio", "document", "location", "contact"] },
+        "mediaUrl": { "type": "string" },
+        "reactions": { "type": "object" },
+        "readBy": { "type": "array" },
+        "deliveredTo": { "type": "array" },
+        "deletedFor": { "type": "array" },
+        "isDeletedForEveryone": { "type": "boolean" },
+        "isEdited": { "type": "boolean" },
+        "starredBy": { "type": "array" },
+        "location": { "type": "object" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["senderId", "senderName", "type", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "user",
+      "description": "User profile records"
+    },
+    "/privateChats/{chatId}": {
+      "schema": "privateChat",
+      "description": "Private direct chats and 2-user lock rooms"
+    },
+    "/privateChats/{chatId}/messages/{messageId}": {
+      "schema": "message",
+      "description": "Messages and reactions in private chats"
+    },
+    "/privateInvites/{inviteId}": {
+      "schema": "privateInvite",
+      "description": "Invitations for 2-user private lock rooms"
+    },
+    "/followRequests/{requestId}": {
+      "schema": "followRequest",
+      "description": "Instagram-style friend follow requests and accepted connections"
+    },
+    "/groups/{groupId}": {
+      "schema": "group",
+      "description": "Community and private groups"
+    },
+    "/groups/{groupId}/messages/{messageId}": {
+      "schema": "message",
+      "description": "Messages and reactions in group chats"
+    },
+    "/statuses/{statusId}": {
+      "schema": "status",
+      "description": "24h status stories"
+    },
+    "/calls/{callId}": {
+      "schema": "call",
+      "description": "WebRTC signaling channels"
+    },
+    "/reports/{reportId}": {
+      "schema": "report",
+      "description": "Moderation reports queue"
+    }
+  }
+}

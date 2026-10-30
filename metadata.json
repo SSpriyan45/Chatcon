@@ -1,0 +1,11 @@
+{
+  "name": "ChatConnect",
+  "description": "WhatsApp-style real-time messaging application with 2-user private rooms, groups, status stories, WebRTC voice/video calls, and admin moderation dashboard.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
